@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Post;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 
@@ -12,46 +13,12 @@ Route::get('/about', function () {
 });
 
 Route::get('/posts', function () {
-    return view('posts', ['title'=>'Blog', 'posts'=>[
-        [
-            'id' => 1,
-            'slug' => 'judul-artikel-1',
-            'title' => 'Judul Atrikel 1',
-            'author' => 'Reez',
-            'body' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat nisi delectus rem nam, sunt, debitis libero dolores aperiam perspiciatis fugiat consectetur, excepturi cupiditate esse officiis modi architecto nemo magni deleniti.'
-        ],
-        [
-            'id' => 2,
-            'slug' => 'judul-artikel-1',
-            'title' => 'Judul Atrikel 2',
-            'author' => 'Reez',
-            'body' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat nisi delectus rem nam, sunt, debitis libero dolores aperiam perspiciatis fugiat consectetur, excepturi cupiditate esse officiis modi architecto nemo magni deleniti.'
-        ]
-    ]]);
-    
+    return view('posts', ['title' => 'Blog', 'posts' => Post::all()]);  
 });
 
 Route::get('/posts/{slug}', function ($slug) {
-    $posts = [
-        [
-            'id' => 1,
-            'slug' => 'judul-artikel-1',
-            'title' => 'Judul Atrikel 1',
-            'author' => 'Reez',
-            'body' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat nisi delectus rem nam, sunt, debitis libero dolores aperiam perspiciatis fugiat consectetur, excepturi cupiditate esse officiis modi architecto nemo magni deleniti.'
-        ],
-        [
-            'id' => 2,
-            'slug' => 'judul-artikel-1',
-            'title' => 'Judul Atrikel 2',
-            'author' => 'Reez',
-            'body' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat nisi delectus rem nam, sunt, debitis libero dolores aperiam perspiciatis fugiat consectetur, excepturi cupiditate esse officiis modi architecto nemo magni deleniti.'
-        ]
-    ];
 
-    $post = Arr::first($posts, function($post) use ($slug){
-        return $post['slug'] == $slug;
-    });
+    $post = Post::find($slug);
 
     return view('post', ['title' => 'Single Post', 'post' => $post]);
 });
