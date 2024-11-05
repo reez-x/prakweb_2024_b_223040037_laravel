@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model{
     // protected $table = 'blog_posts';
-
-    protected $fillable = ['title', 'author', 'slug', 'body'];
+    use HasFactory;
+    // protected $fillable = ['title', 'author', 'slug', 'body'];
 };
