@@ -5,6 +5,8 @@ use App\Models\User;
 use App\Models\Category;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
 
 Route::get('/', function () {
     return view('home', ['title'=>'Home Page']);
@@ -17,7 +19,7 @@ Route::get('/about', function () {
 Route::get('/posts', function () {
     // $posts = Post::with(['author', 'category'])->latest()->get();
 
-    return view('posts', ['title' => 'Blog', 'posts' => Post::filter(request(['search','category','author']))->latest()->get()]);  
+    return view('posts', ['title' => 'Blog', 'posts' => Post::filter(request(['search','category','author']))->latest()->paginate(15)->withQueryString()]);  
 });
 
 Route::get('/posts/{post:slug}', function (Post $post) {
@@ -48,3 +50,6 @@ Route::get('/categories/{category:slug}', function (Category $category) {
 
     return view('posts', ['title' => 'Articles in : ' . $category->name, 'posts' => $category->posts]);
 });
+
+Route::get('/login', [LoginController::class, 'index']);
+Route::get('/register', [RegisterController::class, 'index']);
